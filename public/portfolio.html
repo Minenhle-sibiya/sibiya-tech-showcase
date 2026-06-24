@@ -111,12 +111,16 @@ img{max-width:100%}
 .btn-outline{background:transparent;color:var(--text);border-color:var(--border)}
 .btn-outline:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
 .avatar{
-  width:280px;height:280px;border-radius:50%;
-  background:linear-gradient(135deg,var(--navy),var(--accent));
-  display:grid;place-items:center;color:#fff;font-size:7rem;
-  box-shadow:var(--shadow-lg);margin:0 auto;
-  border:6px solid var(--surface);
+  width:220px;height:220px;border-radius:50%;
+  display:block;margin:0 auto 1.75rem;
+  object-fit:cover;object-position:center 20%;
+  box-shadow:var(--shadow-lg);
+  border:5px solid var(--surface);
+  outline:3px solid color-mix(in srgb,var(--accent) 55%,transparent);
 }
+.hero-inner{display:block;text-align:center}
+.hero .summary{margin-left:auto;margin-right:auto}
+.btn-row{justify-content:center}
 
 /* SECTIONS */
 section{padding:5rem 0;scroll-margin-top:80px}
@@ -183,14 +187,41 @@ section{padding:5rem 0;scroll-margin-top:80px}
 .proj-card .role{font-size:0.82rem;color:var(--accent);font-weight:600;margin-bottom:0.25rem}
 .proj-card .gh{margin-top:auto;padding-top:1rem;font-weight:600;font-size:0.9rem;display:inline-flex;align-items:center;gap:0.4rem}
 
-/* CERTS */
-.cert-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.25rem}
-@media (max-width:860px){.cert-grid{grid-template-columns:repeat(2,1fr)}}
-@media (max-width:520px){.cert-grid{grid-template-columns:1fr}}
-.cert-card{cursor:pointer;text-align:center}
+/* CERTS CAROUSEL */
+.carousel-wrap{position:relative}
+.cert-carousel{
+  display:flex;gap:1.25rem;overflow-x:auto;scroll-snap-type:x mandatory;
+  padding:0.5rem 0.25rem 1.25rem;scroll-behavior:smooth;
+  scrollbar-width:thin;scrollbar-color:var(--accent) transparent;
+}
+.cert-carousel::-webkit-scrollbar{height:8px}
+.cert-carousel::-webkit-scrollbar-thumb{background:var(--accent);border-radius:8px}
+.cert-card{
+  flex:0 0 300px;scroll-snap-align:start;text-align:center;
+  display:flex;flex-direction:column;
+}
 .cert-card .card-icon{margin:0 auto 1rem}
-.cert-card .org{color:var(--muted);font-size:0.88rem;margin-top:0.25rem}
+.cert-card h3{font-size:1rem;line-height:1.3;min-height:2.6em}
+.cert-card .org{color:var(--muted);font-size:0.85rem;margin-top:0.35rem;flex:1}
 .cert-card .yr{display:inline-block;margin-top:0.6rem;font-size:0.78rem;font-weight:600;color:var(--accent)}
+.cert-card .view-btn{
+  margin-top:1rem;padding:0.55rem 0.9rem;border-radius:8px;
+  border:1px solid var(--border);background:var(--bg);color:var(--text);
+  font-weight:600;font-size:0.85rem;cursor:pointer;
+  display:inline-flex;align-items:center;justify-content:center;gap:0.4rem;
+  transition:all var(--transition);text-decoration:none;
+}
+.cert-card .view-btn.disabled{opacity:0.45;cursor:not-allowed}
+.cert-card .view-btn:not(.disabled):hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.carousel-btn{
+  position:absolute;top:50%;transform:translateY(-50%);
+  width:44px;height:44px;border-radius:50%;border:1px solid var(--border);
+  background:var(--surface);color:var(--text);cursor:pointer;z-index:5;
+  box-shadow:var(--shadow);display:grid;place-items:center;
+}
+.carousel-btn:hover{background:var(--accent);color:#fff;border-color:var(--accent)}
+.carousel-btn.prev{left:-10px}.carousel-btn.next{right:-10px}
+@media (max-width:860px){.carousel-btn{display:none}}
 
 /* CONTACT */
 .contact-grid{display:grid;grid-template-columns:1.3fr 1fr;gap:2rem}
@@ -300,19 +331,18 @@ footer{background:var(--navy);color:#cdd9e6;padding:3rem 0 1.5rem;margin-top:3re
 <!-- HERO -->
 <header class="hero" id="home">
   <div class="container hero-inner">
-    <div>
-      <span class="eyebrow">Available for opportunities</span>
-      <h1>Hi, I'm <span>Minenhle Sibiya</span></h1>
-      <p class="title">Software Development Graduate · Advanced Diploma IT · CAPACITI</p>
-      <p class="tagline">"Passionate about building innovative technology solutions that solve real-world problems."</p>
-      <p class="summary">A dedicated technology enthusiast from South Africa with a passion for software engineering, AI, and continuous growth. I build full-stack applications and intelligent systems that make a difference.</p>
-      <div class="btn-row">
-        <a href="#" class="btn btn-primary"><i class="fa-solid fa-download"></i> Download CV</a>
-        <a href="#projects" class="btn btn-outline"><i class="fa-solid fa-code"></i> View Projects</a>
-        <a href="#contact" class="btn btn-outline"><i class="fa-solid fa-envelope"></i> Contact Me</a>
-      </div>
+    <img class="avatar" src="/assets/minenhle.jpg" alt="Minenhle Sithokomele Sibiya" />
+    <span class="eyebrow">Available for opportunities</span>
+    <h1>My name is <span>Minenhle Sithokomele Sibiya</span></h1>
+    <p class="title">Software Development Graduate</p>
+    <p class="tagline">"Passionate about building innovative technology solutions that solve real-world problems."</p>
+    <p class="summary">A dedicated technology enthusiast from South Africa with a passion for software engineering, AI, and continuous growth. I build full-stack applications and intelligent systems that make a difference.</p>
+    <div class="btn-row">
+      <a href="/assets/Minenhle-Sibiya-CV.pdf" download class="btn btn-primary"><i class="fa-solid fa-download"></i> Download CV</a>
+      <a href="/assets/Minenhle-Sibiya-CV.pdf" target="_blank" rel="noopener" class="btn btn-outline"><i class="fa-solid fa-file-pdf"></i> View CV</a>
+      <a href="#projects" class="btn btn-outline"><i class="fa-solid fa-code"></i> Projects</a>
+      <a href="#contact" class="btn btn-outline"><i class="fa-solid fa-envelope"></i> Contact</a>
     </div>
-    <div class="avatar"><i class="fa-solid fa-user"></i></div>
   </div>
 </header>
 
@@ -384,27 +414,19 @@ footer{background:var(--navy);color:#cdd9e6;padding:3rem 0 1.5rem;margin-top:3re
     <div class="timeline">
       <div class="tl-item">
         <h4>Advanced Diploma in Information Technology</h4>
-        <div class="meta">Completed</div>
-        <p>Advanced study in software engineering, enterprise development, and applied IT principles.</p>
+        <div class="meta">Nelson Mandela University · Conferred 16 April 2025</div>
+        <p>Applied project management methodologies to plan, execute, and monitor IT projects, ensuring alignment with business goals and efficient resource utilization.</p>
       </div>
       <div class="tl-item">
         <h4>Diploma in Information Technology</h4>
-        <div class="meta">Completed</div>
-        <p>Core foundation in programming, databases, networking, and software development methodologies.</p>
+        <div class="meta">Nelson Mandela University · 2022 – 2024</div>
+        <p>Developed foundational programming skills in JavaScript, CSS, Python, and C# to build versatile software applications.</p>
       </div>
       <div class="tl-item">
-        <h4>CAPACITI Skills Development Programme</h4>
-        <div class="meta">Current Participant</div>
-        <p>Software Development, Agile methodologies, and Industry Readiness training.</p>
+        <h4>National Senior Certificate (Grade 12)</h4>
+        <div class="meta">Ngali Secondary School, KZN · 2020</div>
+        <p>Completed matric with a strong foundation in mathematics and sciences.</p>
       </div>
-    </div>
-    <div class="achievements">
-      <div class="achievement"><i class="fa-solid fa-circle-check"></i> Completed Diploma IT</div>
-      <div class="achievement"><i class="fa-solid fa-circle-check"></i> Completed Advanced Diploma</div>
-      <div class="achievement"><i class="fa-solid fa-circle-check"></i> Multiple software projects</div>
-      <div class="achievement"><i class="fa-solid fa-circle-check"></i> AI &amp; ML coursework</div>
-      <div class="achievement"><i class="fa-solid fa-circle-check"></i> Web enterprise applications</div>
-      <div class="achievement"><i class="fa-solid fa-circle-check"></i> Applied software engineering</div>
     </div>
   </div>
 </section>
@@ -419,20 +441,24 @@ footer{background:var(--navy);color:#cdd9e6;padding:3rem 0 1.5rem;margin-top:3re
     </div>
     <div class="timeline">
       <div class="tl-item">
-        <h4>CAPACITI Skills Development Programme</h4>
-        <div class="meta">Programme Participant</div>
-        <p>Strengthening software development skills through collaborative projects, agile methodologies, and professional competencies.</p>
+        <h4>CAPACITI AI Engineering Bootcamp — Programme Participant</h4>
+        <div class="meta">CAPACITI · April 2026 – Present</div>
+        <p>Enrolled in an AI Engineering bootcamp focused on artificial intelligence, machine learning, and software development fundamentals. Building hands-on experience with model building, data handling, and real-world problem solving in agile, collaborative environments while strengthening teamwork, critical thinking, and communication.</p>
       </div>
       <div class="tl-item">
-        <h4>Pharmacy Management System</h4>
-        <div class="meta">Full-Stack Developer · C#, ASP.NET MVC, SQL Server, Bootstrap</div>
-        <p>Built medication management features, prescription workflows, and full database integration.</p>
+        <h4>FTTH First Line Technical Support Call Centre Agent</h4>
+        <div class="meta">iSON Xperiences — Vodacom Fibre · October 2025 – May 2026</div>
+        <p>Delivered first-line technical and billing support to FTTH customers in a high-volume environment. Troubleshot connectivity, speed, router, and ONT issues; logged, monitored, and escalated tickets; performed router configuration and network checks using AXXESS and Integrity tools while maintaining accurate documentation and high service standards.</p>
       </div>
       <div class="tl-item">
-        <h4>Notification Management System</h4>
-        <div class="meta">Software Developer · ASP.NET, C#, SQL Server</div>
-        <p>Developed notification features using MVC architecture and structured communication workflows.</p>
+        <h4>Tuck Shop Keeper</h4>
+        <div class="meta">Hector Peterson Tuck Shop, Nelson Mandela University · 2025</div>
+        <p>Managed daily tuck shop operations including sales, cash handling, and accurate recordkeeping while delivering friendly, efficient customer service.</p>
       </div>
+    </div>
+    <h3 style="text-align:center;margin:3rem 0 1.25rem;font-size:1.4rem;font-weight:800">Achievements</h3>
+    <div class="achievements">
+      <div class="achievement"><i class="fa-solid fa-trophy"></i> Top Academic Residence Student — Nelson Mandela University (2024)</div>
     </div>
   </div>
 </section>
@@ -486,9 +512,13 @@ footer{background:var(--navy);color:#cdd9e6;padding:3rem 0 1.5rem;margin-top:3re
     <div class="section-head">
       <span class="eyebrow">Certifications</span>
       <h2>Credentials &amp; Training</h2>
-      <p>Click any certificate to see details.</p>
+      <p>Scroll through certifications. Click <strong>View</strong> to open the certificate PDF where available.</p>
     </div>
-    <div class="cert-grid" id="certGrid"></div>
+    <div class="carousel-wrap">
+      <button class="carousel-btn prev" id="certPrev" aria-label="Previous"><i class="fa-solid fa-chevron-left"></i></button>
+      <div class="cert-carousel" id="certGrid"></div>
+      <button class="carousel-btn next" id="certNext" aria-label="Next"><i class="fa-solid fa-chevron-right"></i></button>
+    </div>
   </div>
 </section>
 
@@ -590,12 +620,36 @@ navLinks.querySelectorAll('a').forEach(a=>a.addEventListener('click',()=>navLink
 
 /* CERTIFICATIONS */
 const certs=[
-  {t:'IT Fundamentals',o:'Microsoft',y:'2024'},
-  {t:'Software Development',o:'CAPACITI',y:'2025'},
-  {t:'AI & Machine Learning',o:'Coursera',y:'2023'},
-  {t:'Advanced Web Dev',o:'edX',y:'2024'},
-  {t:'Data Analytics',o:'Google',y:'2022'},
-  {t:'Agile & Scrum',o:'Scrum Alliance',y:'2025'},
+  {t:'Introduction to Cybersecurity',o:'Cisco',y:'December 2022',pdf:'/assets/Introduction_to_Cybersecurity_Certificate.pdf'},
+  {t:'CCNAV7: Introduction to Networks',o:'Cisco',y:'December 2022',pdf:'/assets/CCNAV7_Introduction_to_Networks.pdf'},
+  {t:'ISON Xperiences Customer Care',o:'iSON Xperiences',y:'October 2025',pdf:'/assets/Ison_Customer_Care.pdf'},
+  {t:'Generative AI with Large Language Models',o:'DeepLearning.AI · AWS — Coursera',y:'May 2026'},
+  {t:'Use AI Responsibly',o:'Google — Coursera',y:'May 2026'},
+  {t:'Discover the Art of Prompting',o:'Google — Coursera',y:'May 2026'},
+  {t:'Maximize Productivity With AI Tools',o:'Google — Coursera',y:'May 2026'},
+  {t:'Introduction to AI',o:'Google — Coursera',y:'May 2026'},
+  {t:'AI Essentials',o:'Intel — Coursera',y:'May 2026',pdf:'/assets/AI_Essentials.pdf'},
+  {t:'Introduction to Artificial Intelligence (AI)',o:'IBM — Coursera',y:'May 2026'},
+  {t:'Generative AI: Prompt Engineering Basics',o:'IBM — Coursera',y:'May 2026'},
+  {t:'AI For Everyone',o:'DeepLearning.AI — Coursera',y:'May 2026',pdf:'/assets/AI_For_Everyone.pdf'},
+  {t:'Introduction to Generative AI',o:'Google Cloud — Coursera',y:'May 2026'},
+  {t:'Stay Ahead of the AI Curve',o:'Google — Coursera',y:'May 2026'},
+  {t:'AI Foundations: Prompt Engineering with ChatGPT',o:'Arizona State University — Coursera',y:'June 2026',pdf:'/assets/AI_Foundations_Prompt_Engineering_with_ChatGPT.pdf'},
+  {t:'Supervised Machine Learning: Regression and Classification',o:'DeepLearning.AI · Stanford — Coursera',y:'June 2026'},
+  {t:'Advanced Learning Algorithms',o:'DeepLearning.AI · Stanford — Coursera',y:'June 2026',pdf:'/assets/Advanced_Learning_Algorithms.pdf'},
+  {t:'Unsupervised Learning, Recommenders, Reinforcement Learning',o:'DeepLearning.AI · Stanford — Coursera',y:'June 2026'},
+  {t:'Python for Data Science, AI & Development',o:'IBM — Coursera',y:'June 2026'},
+  {t:'Introduction to Responsible AI',o:'Google Cloud — Coursera',y:'June 2026'},
+  {t:'Trustworthy AI: Managing Bias, Ethics, and Accountability',o:'Johns Hopkins University — Coursera',y:'June 2026'},
+  {t:'Active Listening: Enhancing Communication Skills',o:'Coursera',y:'May 2026'},
+  {t:'Developing Interpersonal Skills',o:'IBM — Coursera',y:'June 2026'},
+  {t:'Work Smarter, Not Harder: Time Management',o:'UC Irvine — Coursera',y:'June 2026'},
+  {t:'Emotional Intelligence in the Workplace',o:'LearnKartS — Coursera',y:'June 2026'},
+  {t:'Introduction to Personal Branding',o:'University of Virginia — Coursera',y:'June 2026'},
+  {t:'Finding Your Professional Voice: Confidence & Impact',o:'University of London · RCSSD — Coursera',y:'June 2026'},
+  {t:'Leading with Impact: Team Dynamics, Strategy and Ethics',o:'Coursera',y:'June 2026'},
+  {t:'Financial Planning for Young Adults',o:'University of Illinois Urbana-Champaign — Coursera',y:'June 2026'},
+  {t:'Write Professional Emails in English',o:'Georgia Tech — Coursera',y:'May 2026'},
 ];
 const grid=document.getElementById('certGrid');
 grid.innerHTML=certs.map((c,i)=>`
@@ -604,18 +658,13 @@ grid.innerHTML=certs.map((c,i)=>`
     <h3>${c.t}</h3>
     <div class="org">${c.o}</div>
     <span class="yr">${c.y}</span>
+    ${c.pdf
+      ? `<a class="view-btn" href="${c.pdf}" target="_blank" rel="noopener"><i class="fa-solid fa-eye"></i> View Certificate</a>`
+      : `<span class="view-btn disabled" title="PDF not uploaded"><i class="fa-regular fa-file"></i> PDF coming soon</span>`}
   </div>`).join('');
-const modal=document.getElementById('certModal');
-const openModal=i=>{
-  document.getElementById('mTitle').textContent=certs[i].t;
-  document.getElementById('mOrg').textContent=certs[i].o;
-  document.getElementById('mDate').textContent='Issued '+certs[i].y;
-  modal.classList.add('open');
-};
-grid.querySelectorAll('.cert-card').forEach(el=>el.addEventListener('click',()=>openModal(+el.dataset.i)));
-document.getElementById('modalClose').addEventListener('click',()=>modal.classList.remove('open'));
-modal.addEventListener('click',e=>{if(e.target===modal)modal.classList.remove('open')});
-document.addEventListener('keydown',e=>{if(e.key==='Escape')modal.classList.remove('open')});
+const scrollBy=dir=>grid.scrollBy({left:dir*320,behavior:'smooth'});
+document.getElementById('certPrev').addEventListener('click',()=>scrollBy(-1));
+document.getElementById('certNext').addEventListener('click',()=>scrollBy(1));
 
 /* CONTACT FORM */
 document.getElementById('contactForm').addEventListener('submit',e=>{
