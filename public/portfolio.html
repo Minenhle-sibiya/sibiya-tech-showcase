@@ -90,17 +90,15 @@ img{max-width:100%}
   background:radial-gradient(ellipse at 20% 0%,color-mix(in srgb,var(--accent) 18%,transparent),transparent 60%);
   pointer-events:none;
 }
-.hero-inner{display:grid;grid-template-columns:1fr 320px;gap:3rem;align-items:center;position:relative;text-align:left}
-@media (max-width:860px){.hero-inner{grid-template-columns:1fr} .hero-copy{text-align:left} .avatar{justify-self:center;margin:0 auto 1.75rem}} 
+.hero-inner{display:grid;grid-template-columns:1fr 320px;gap:3rem;align-items:center;position:relative}
+@media (max-width:860px){.hero-inner{grid-template-columns:1fr;text-align:center}}
 .eyebrow{display:inline-block;font-size:0.8rem;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;color:var(--accent);background:color-mix(in srgb,var(--accent) 12%,transparent);padding:0.4rem 0.85rem;border-radius:999px;margin-bottom:1.25rem}
 .hero h1{font-size:clamp(2.25rem,5vw,3.6rem);line-height:1.1;letter-spacing:-0.03em;font-weight:800;margin-bottom:1rem}
 .hero h1 span{color:var(--accent)}
 .hero .title{font-size:1.05rem;color:var(--muted);font-weight:500;margin-bottom:1rem}
 .hero .tagline{font-size:1.15rem;color:var(--text);font-weight:600;margin-bottom:1rem;font-style:italic}
 .hero .summary{color:var(--muted);max-width:620px;margin-bottom:2rem}
-@media (max-width:860px){.hero .summary{margin-left:auto;margin-right:auto}}
 .btn-row{display:flex;gap:0.85rem;flex-wrap:wrap}
-@media (max-width:860px){.btn-row{justify-content:center}}
 .btn{
   display:inline-flex;align-items:center;gap:0.5rem;
   padding:0.85rem 1.5rem;border-radius:10px;font-weight:600;font-size:0.95rem;
@@ -111,16 +109,17 @@ img{max-width:100%}
 .btn-outline{background:transparent;color:var(--text);border-color:var(--border)}
 .btn-outline:hover{border-color:var(--accent);color:var(--accent);transform:translateY(-2px)}
 .avatar{
-  width:240px;height:240px;border-radius:24px;
-  display:block;margin:0;
+  width:220px;height:220px;border-radius:50%;
+  display:block;margin:0 auto 1.75rem;
   object-fit:cover;object-position:center 20%;
   box-shadow:var(--shadow-lg);
   border:5px solid var(--surface);
   outline:3px solid color-mix(in srgb,var(--accent) 55%,transparent);
   justify-self:end;
 }
-.hero-copy{grid-column:1}
-.btn-row{justify-content:flex-start}
+.hero-inner{display:block;text-align:center}
+.hero .summary{margin-left:auto;margin-right:auto}
+.btn-row{justify-content:center}
 
 /* SECTIONS */
 section{padding:5rem 0;scroll-margin-top:80px}
@@ -185,7 +184,16 @@ section{padding:5rem 0;scroll-margin-top:80px}
   display:grid;place-items:center;color:#fff;font-size:2.5rem;
 }
 .proj-card .role{font-size:0.82rem;color:var(--accent);font-weight:600;margin-bottom:0.25rem}
-.proj-card .gh{margin-top:auto;padding-top:1rem;font-weight:600;font-size:0.9rem;display:inline-flex;align-items:center;gap:0.4rem}
+.proj-card .proj-actions{display:flex;flex-wrap:wrap;gap:0.7rem;margin-top:auto;padding-top:1rem}
+.proj-card .proj-link{
+  display:inline-flex;align-items:center;gap:0.4rem;
+  padding:0.6rem 0.9rem;border-radius:999px;
+  border:1px solid var(--border);background:var(--surface);color:var(--text);
+  font-weight:600;font-size:0.9rem;text-decoration:none;transition:all var(--transition);
+}
+.proj-card .proj-link:hover{background:var(--accent);color:#fff;border-color:var(--accent);transform:translateY(-2px)}
+.proj-card .proj-link.github{background:var(--navy);color:#fff;border-color:var(--navy)}
+.proj-card .proj-link.github:hover{background:var(--accent);border-color:var(--accent)}
 
 /* CERTS CAROUSEL */
 .carousel-wrap{position:relative}
@@ -332,17 +340,15 @@ footer{background:var(--navy);color:#cdd9e6;padding:3rem 0 1.5rem;margin-top:3re
 <header class="hero" id="home">
   <div class="container hero-inner">
     <img class="avatar" src="/assets/minenhle.jpg" alt="Minenhle Sithokomele Sibiya" />
-    <div class="hero-copy">
-      <span class="eyebrow">Available for opportunities</span>
-      <h1><span>Minenhle Sithokomele Sibiya</span></h1>
-      <p class="title">Software Development Graduate</p>
-      <p class="tagline">"Passionate about building innovative technology solutions that solve real-world problems."</p>
-      <p class="summary">A dedicated technology enthusiast from South Africa with a passion for software engineering, AI, and continuous growth. I build full-stack applications and intelligent systems that make a difference.</p>
-      <div class="btn-row">
-        <a href="/assets/Minenhle-Sibiya-CV.pdf" download class="btn btn-primary"><i class="fa-solid fa-download"></i> Download CV</a>
-        <a href="#projects" class="btn btn-outline"><i class="fa-solid fa-code"></i> Projects</a>
-        <a href="#contact" class="btn btn-outline"><i class="fa-solid fa-envelope"></i> Contact</a>
-      </div>
+    <span class="eyebrow">Available for opportunities</span>
+    <h1><span>Minenhle Sithokomele Sibiya</span></h1>
+    <p class="title">Software Development Graduate</p>
+    <p class="tagline">"Passionate about building innovative technology solutions that solve real-world problems."</p>
+    <p class="summary">A dedicated technology enthusiast from South Africa with a passion for software engineering, AI, and continuous growth. I build full-stack applications and intelligent systems that make a difference.</p>
+    <div class="btn-row">
+      <a href="/assets/Minenhle-Sibiya-CV.pdf" download class="btn btn-primary"><i class="fa-solid fa-download"></i> Download CV</a>
+      <a href="#projects" class="btn btn-outline"><i class="fa-solid fa-code"></i> Projects</a>
+      <a href="#contact" class="btn btn-outline"><i class="fa-solid fa-envelope"></i> Contact</a>
     </div>
   </div>
 </header>
@@ -359,7 +365,7 @@ footer{background:var(--navy);color:#cdd9e6;padding:3rem 0 1.5rem;margin-top:3re
       <div class="card">
         <div class="card-icon"><i class="fa-solid fa-user-graduate"></i></div>
         <h3>Personal Background</h3>
-        <p>I am a dedicated technology enthusiast from South Africa with a passion for learning, innovation, and continuous professional growth. My academic journey in Information Technology has equipped me with strong analytical and problem-solving skills.</p>
+        <p>I am a motivated and passionate Technology enthusiast from KwaZulu-Natal, currently based in Port Elizabeth. Through my academic studies, internship experience, and personal projects, I have developed skills in web development, programming, database management, and emerging AI technologies. I am committed to continuous learning and aim to create innovative solutions while growing as an AI and software engineering professional.</p>
       </div>
       <div class="card">
         <div class="card-icon"><i class="fa-solid fa-briefcase"></i></div>
@@ -442,9 +448,9 @@ footer{background:var(--navy);color:#cdd9e6;padding:3rem 0 1.5rem;margin-top:3re
     </div>
     <div class="timeline">
       <div class="tl-item">
-        <h4>CAPACITI AI Engineering Bootcamp — Programme Participant</h4>
+        <h4>IT Intern</h4>
         <div class="meta">CAPACITI · April 2026 – Present</div>
-        <p>Enrolled in an AI Engineering bootcamp focused on artificial intelligence, machine learning, and software development fundamentals. Building hands-on experience with model building, data handling, and real-world problem solving in agile, collaborative environments while strengthening teamwork, critical thinking, and communication.</p>
+        <p>Gaining hands-on experience in artificial intelligence, machine learning, and software development through industry-focused training and practical projects. Building skills in data handling, model development, and real-world problem-solving while working in agile, collaborative environments and strengthening teamwork, communication, and critical thinking abilities.</p>
       </div>
       <div class="tl-item">
         <h4>FTTH First Line Technical Support Call Centre Agent</h4>
@@ -471,43 +477,55 @@ footer{background:var(--navy);color:#cdd9e6;padding:3rem 0 1.5rem;margin-top:3re
     <div class="proj-grid">
       <article class="card proj-card">
         <div class="cover"><i class="fa-solid fa-prescription-bottle-medical"></i></div>
-        <div class="role">Full-Stack Developer</div>
+        <div class="role"></div>
         <h3>Pharmacy Management System</h3>
         <p>Healthcare management platform for prescriptions and medications with role-based workflows.</p>
         <div class="tag-row">
           <span class="tag">C#</span><span class="tag">ASP.NET MVC</span><span class="tag">SQL Server</span><span class="tag">Bootstrap</span>
         </div>
-        <a href="#" class="gh"><i class="fa-brands fa-github"></i> View on GitHub</a>
+        <div class="proj-actions">
+          <a href="https://github.com/" class="proj-link github" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> View on GitHub</a>
+          <a href="/projects/pharmacy-management-system.html" class="proj-link" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> View Site</a>
+        </div>
       </article>
       <article class="card proj-card">
         <div class="cover"><i class="fa-solid fa-bell"></i></div>
-        <div class="role">Software Developer</div>
+        <div class="role"></div>
         <h3>Notification Management System</h3>
         <p>Web-based notification and communication platform with structured workflows.</p>
         <div class="tag-row">
           <span class="tag">ASP.NET</span><span class="tag">C#</span><span class="tag">SQL Server</span>
         </div>
-        <a href="#" class="gh"><i class="fa-brands fa-github"></i> View on GitHub</a>
+        <div class="proj-actions">
+          <a href="https://github.com/" class="proj-link github" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> View on GitHub</a>
+          <a href="/projects/notification-management-system.html" class="proj-link" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> View Site</a>
+        </div>
       </article>
       <article class="card proj-card">
         <div class="cover"><i class="fa-solid fa-brain"></i></div>
-        <div class="role">Developer</div>
+        <div class="role"></div>
         <h3>Machine Learning &amp; AI Projects</h3>
         <p>Collection of ML projects: predictive models built with TensorFlow, NumPy, and Pandas.</p>
         <div class="tag-row">
           <span class="tag">Python</span><span class="tag">TensorFlow</span><span class="tag">NumPy</span><span class="tag">Pandas</span>
         </div>
-        <a href="#" class="gh"><i class="fa-brands fa-github"></i> View on GitHub</a>
+        <div class="proj-actions">
+          <a href="https://github.com/" class="proj-link github" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> View on GitHub</a>
+          <a href="/projects/machine-learning-ai-projects.html" class="proj-link" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> View Site</a>
+        </div>
       </article>
       <article class="card proj-card">
-        <div class="cover"><i class="fa-solid fa-scissors"></i></div>
-        <div class="role">Frontend Developer</div>
+        <div class="cover"><img src="/assets/MiniHair bar.png" alt="Mini Hair Bar Website" style="width:100%;height:100%;object-fit:cover;border-radius:10px;" /></div>
+        <div class="role"></div>
         <h3>Mini Hair Bar Website</h3>
         <p>A responsive salon website designed to promote beauty services and improve customer engagement through an accessible online presence.</p>
         <div class="tag-row">
           <span class="tag">HTML</span><span class="tag">CSS</span><span class="tag">JavaScript</span><span class="tag">GitHub Pages</span>
         </div>
-        <a href="#" class="gh"><i class="fa-solid fa-arrow-up-right-from-square"></i> View Project</a>
+        <div class="proj-actions">
+          <a href="https://github.com/" class="proj-link github" target="_blank" rel="noopener"><i class="fa-brands fa-github"></i> View on GitHub</a>
+          <a href="https://minenhle-sibiya.github.io/MinnieHairBar/MiniHairBar/index.html" class="proj-link" target="_blank" rel="noopener"><i class="fa-solid fa-arrow-up-right-from-square"></i> View Site</a>
+        </div>
       </article>
     </div>
   </div>
