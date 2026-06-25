@@ -283,24 +283,26 @@ section{padding:5rem 0;scroll-margin-top:80px}
 .modal.open{display:flex;animation:fade 0.25s ease}
 @keyframes fade{from{opacity:0}to{opacity:1}}
 .modal-card{
-  background:var(--surface);border-radius:16px;max-width:480px;width:100%;
-  padding:2rem;position:relative;text-align:center;box-shadow:var(--shadow-lg);
+  background:var(--surface);border-radius:16px;max-width:920px;width:min(95vw,920px);
+  padding:1rem;position:relative;box-shadow:var(--shadow-lg);
   animation:pop 0.25s ease;
 }
 @keyframes pop{from{transform:scale(0.92);opacity:0}to{transform:scale(1);opacity:1}}
 .modal-close{
   position:absolute;top:0.85rem;right:0.85rem;width:34px;height:34px;
   border-radius:50%;border:none;background:var(--bg);color:var(--text);
-  cursor:pointer;font-size:1rem;
+  cursor:pointer;font-size:1rem;z-index:2;
 }
+.modal-header{display:flex;align-items:center;justify-content:space-between;gap:1rem;margin:0.25rem 0 0.75rem;padding-right:2.5rem}
 .modal-icon{
   width:90px;height:90px;border-radius:18px;margin:0 auto 1.25rem;
   background:linear-gradient(135deg,var(--navy),var(--accent));
   color:#fff;display:grid;place-items:center;font-size:2.5rem;
 }
-.modal h3{font-size:1.4rem;font-weight:800;margin-bottom:0.5rem}
-.modal .modal-org{color:var(--accent);font-weight:600;margin-bottom:0.25rem}
-.modal .modal-date{color:var(--muted);font-size:0.9rem;margin-bottom:1rem}
+.modal h3{font-size:1.2rem;font-weight:800;margin-bottom:0.25rem}
+.modal .modal-org{color:var(--accent);font-weight:600;margin-bottom:0.15rem}
+.modal .modal-date{color:var(--muted);font-size:0.9rem;margin-bottom:0}
+.modal-frame{width:100%;height:min(70vh,720px);border:0;border-radius:12px;background:#fff}
 .modal p{color:var(--muted);font-size:0.92rem}
 
 /* FOOTER */
@@ -606,11 +608,15 @@ footer{background:var(--navy);color:#cdd9e6;padding:3rem 0 1.5rem;margin-top:3re
 <div class="modal" id="certModal" role="dialog" aria-modal="true">
   <div class="modal-card">
     <button class="modal-close" id="modalClose" aria-label="Close"><i class="fa-solid fa-xmark"></i></button>
-    <div class="modal-icon"><i class="fa-solid fa-certificate"></i></div>
-    <h3 id="mTitle"></h3>
-    <div class="modal-org" id="mOrg"></div>
-    <div class="modal-date" id="mDate"></div>
-    <p>This certificate validates the completion of the corresponding training programme and demonstrates verified expertise in the subject area.</p>
+    <div class="modal-header">
+      <div>
+        <h3 id="mTitle"></h3>
+        <div class="modal-org" id="mOrg"></div>
+        <div class="modal-date" id="mDate"></div>
+      </div>
+      <a id="downloadCert" class="btn btn-primary" href="#" download target="_blank" rel="noopener"><i class="fa-solid fa-download"></i> Download</a>
+    </div>
+    <iframe id="certFrame" class="modal-frame" title="Certificate preview"></iframe>
   </div>
 </div>
 
@@ -693,6 +699,25 @@ const certs=[
   {t:'Write Professional Emails in English',o:'Georgia Tech — Coursera',y:'May 2026'},
 ];
 const grid=document.getElementById('certGrid');
+const certModal=document.getElementById('certModal');
+const certFrame=document.getElementById('certFrame');
+const modalTitle=document.getElementById('mTitle');
+const modalOrg=document.getElementById('mOrg');
+const modalDate=document.getElementById('mDate');
+const downloadCert=document.getElementById('downloadCert');
+const closeCertModal=()=>{
+  certModal.classList.remove('open');
+  certFrame.src='';
+};
+const openCertModal=(cert)=>{
+  modalTitle.textContent=cert.t;
+  modalOrg.textContent=cert.o;
+  modalDate.textContent=cert.y;
+  downloadCert.href=cert.pdf||'#';
+  downloadCert.style.display=cert.pdf?'inline-flex':'none';
+  certFrame.src=cert.pdf||'';
+  certModal.classList.add('open');
+};
 grid.innerHTML=certs.map((c,i)=>`
   <div class="card cert-card" data-i="${i}">
     <div class="card-icon"><i class="fa-solid fa-award"></i></div>
@@ -700,12 +725,20 @@ grid.innerHTML=certs.map((c,i)=>`
     <div class="org">${c.o}</div>
     <span class="yr">${c.y}</span>
     ${c.pdf
-      ? `<a class="view-btn" href="${c.pdf}" target="_blank" rel="noopener"><i class="fa-solid fa-eye"></i> View Certificate</a>`
+      ? `<button type="button" class="view-btn" data-index="${i}"><i class="fa-solid fa-eye"></i> View Certificate</button>`
       : `<span class="view-btn disabled" title="PDF not uploaded"><i class="fa-regular fa-file"></i> PDF coming soon</span>`}
   </div>`).join('');
 const scrollBy=dir=>grid.scrollBy({left:dir*320,behavior:'smooth'});
 document.getElementById('certPrev').addEventListener('click',()=>scrollBy(-1));
 document.getElementById('certNext').addEventListener('click',()=>scrollBy(1));
+document.querySelectorAll('.view-btn:not(.disabled)').forEach(btn=>btn.addEventListener('click',()=>openCertModal(certs[Number(btn.dataset.index)])));
+document.getElementById('modalClose').addEventListener('click',closeCertModal);
+certModal.addEventListener('click',e=>{
+  if(e.target===certModal) closeCertModal();
+});
+document.addEventListener('keydown',e=>{
+  if(e.key==='Escape') closeCertModal();
+});
 
 /* CONTACT FORM */
 document.getElementById('contactForm').addEventListener('submit',e=>{
