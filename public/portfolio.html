@@ -1291,7 +1291,7 @@
           <p>please feel free to ask any questions, Send me a message.</p>
         </div>
         <div class="contact-grid">
-          <form class="card form" id="contactForm" novalidate>
+          <form class="card form" id="contactForm" novalidate data-endpoint="https://formsubmit.co/minenhlesthokomele8@gmail.com">
             <div class="field">
               <label for="name">Name</label>
               <input id="name" type="text" required placeholder="Your full name" />
@@ -1394,28 +1394,44 @@
     <!-- FOOTER -->
     <footer>
       <div class="container">
-        <div class="footer-grid">
-          <div>
-            <h5>Minenhle Sithokomele Sibiya</h5>
-            <p style="font-size: 0.9rem; line-height: 1.6">
-              Software Development Graduate building innovative technology solutions.
-            </p>
-          </div>
+        <div class="footer-grid two-columns">
           <div>
             <h5>Navigation</h5>
+            <a href="#home">Home</a>
             <a href="#about">About</a>
+            <a href="#education">Education</a>
+            <a href="#experience">Experience</a>
             <a href="#projects">Projects</a>
             <a href="#certifications">Certifications</a>
             <a href="#contact">Contact</a>
           </div>
           <div>
             <h5>Connect</h5>
+            <div class="contact-links">
+              <div>
+                <strong>Email:</strong>
+                <a href="mailto:minenhlesthokomele8@gmail.com">minenhlesthokomele8@gmail.com</a>
+                <button type="button" class="copy-btn" data-copy="minenhlesthokomele8@gmail.com" aria-label="Copy email"><i class="fa-solid fa-copy"></i></button>
+              </div>
+              <div>
+                <strong>Phone:</strong>
+                <a href="tel:+27733787984">0733787984</a>
+                <button type="button" class="copy-btn" data-copy="+27733787984" aria-label="Copy phone"><i class="fa-solid fa-copy"></i></button>
+                /
+                <a href="tel:+27663100904">0663100904</a>
+                <button type="button" class="copy-btn" data-copy="+27663100904" aria-label="Copy phone"><i class="fa-solid fa-copy"></i></button>
+              </div>
+            </div>
             <div class="socials">
-              <a href="#" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
-              <a href="#" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-              <a href="mailto:minenhlesthokomele8@gmail.com" aria-label="Email"
-                ><i class="fa-solid fa-envelope"></i
-              ></a>
+              <a href="https://github.com/Minenhle-sibiya" aria-label="GitHub" target="_blank" rel="noopener">
+                <i class="fa-brands fa-github"></i>
+              </a>
+              <a href="https://www.linkedin.com/in/minenhle-sibiya-086130304/" aria-label="LinkedIn" target="_blank" rel="noopener">
+                <i class="fa-brands fa-linkedin-in"></i>
+              </a>
+              <a href="mailto:minenhlesthokomele8@gmail.com" aria-label="Email">
+                <i class="fa-solid fa-envelope"></i>
+              </a>
             </div>
           </div>
         </div>
@@ -1729,12 +1745,77 @@
       });
 
       /* CONTACT FORM */
-      document.getElementById("contactForm").addEventListener("submit", (e) => {
+      // To enable real email delivery, replace the `data-endpoint` value on the
+      // `#contactForm` element with your Formspree endpoint (or another endpoint).
+      // Example Formspree endpoint: https://formspree.io/f/your_form_id
+      document.getElementById("contactForm").addEventListener("submit", async (e) => {
         e.preventDefault();
+        const form = e.target;
         const msg = document.getElementById("formMsg");
-        msg.classList.add("show");
-        e.target.reset();
-        setTimeout(() => msg.classList.remove("show"), 5000);
+        const endpoint = form.dataset.endpoint || "";
+        const data = {
+          name: document.getElementById("name").value,
+          email: document.getElementById("email").value,
+          subject: document.getElementById("subject").value,
+          message: document.getElementById("message").value,
+        };
+
+        // If endpoint is not configured, show local success and instruct user.
+        if (!endpoint || endpoint.includes("YOUR_FORM_ID")) {
+          msg.innerHTML =
+            '<i class="fa-solid fa-check-circle"></i> Message saved locally — configure a form endpoint to send emails.';
+          msg.classList.add("show");
+          form.reset();
+          setTimeout(() => msg.classList.remove("show"), 5000);
+          return;
+        }
+
+        try {
+          const formBody = new URLSearchParams();
+          Object.entries(data).forEach(([k, v]) => formBody.append(k, String(v ?? "")));
+          const res = await fetch(endpoint, {
+            method: "POST",
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+            body: formBody.toString(),
+          });
+
+          if (res.ok) {
+            msg.innerHTML = '<i class="fa-solid fa-check-circle"></i> Thanks! Your message has been sent successfully.';
+            msg.classList.add("show");
+            form.reset();
+          } else {
+            msg.innerHTML = '<i class="fa-solid fa-exclamation-circle"></i> Failed to send — please try again later.';
+            msg.classList.add("show", "error");
+          }
+        } catch (err) {
+          msg.innerHTML = '<i class="fa-solid fa-exclamation-circle"></i> Network error — please try again later.';
+          msg.classList.add("show", "error");
+        }
+
+        setTimeout(() => {
+          msg.classList.remove("show", "error");
+          msg.innerHTML = '<i class="fa-solid fa-check-circle"></i> Thanks! Your message has been sent successfully.';
+        }, 5000);
+      });
+
+      /* COPY TO CLIPBOARD FOR CONTACT */
+      document.querySelectorAll('.copy-btn').forEach((btn) => {
+        btn.addEventListener('click', async () => {
+          const text = btn.dataset.copy || '';
+          try {
+            await navigator.clipboard.writeText(text);
+            const orig = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-check"></i>';
+            btn.disabled = true;
+            setTimeout(() => {
+              btn.innerHTML = orig;
+              btn.disabled = false;
+            }, 1500);
+          } catch (err) {
+            // fallback
+            alert('Unable to copy to clipboard');
+          }
+        });
       });
 
       /* YEAR */
