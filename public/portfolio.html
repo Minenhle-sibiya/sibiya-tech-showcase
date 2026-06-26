@@ -289,7 +289,9 @@
       }
       .avatar {
         width: 100%;
-        max-width: 420px;
+        max-width: 520px;
+        min-width: 360px;
+        height: min(520px, 70vh);
         aspect-ratio: 1/1;
         border-radius: 24px;
         object-fit: cover;
@@ -926,7 +928,7 @@
     <!-- NAV -->
     <nav class="nav">
       <div class="container nav-inner">
-        <a href="#home" class="brand">Minenhle<span>.</span></a>
+        <a href="#home" class="brand">Minenhle Sithokomele Sibiya</a>
         <div class="nav-links" id="navLinks">
           <a href="#about">About</a>
           <a href="#education">Education</a>
@@ -954,8 +956,8 @@
           <h1><span>Minenhle Sithokomele Sibiya</span></h1>
           <p class="title">Software Development Graduate</p>
           <p class="tagline">
-            "Passionate about building innovative technology solutions that solve real-world
-            problems."
+            Aspiring IT professional dedicated to developing innovative technology solutions while
+            continuously learning and making a meaningful impact through technology.
           </p>
           <p class="summary">
             Information Technology graduate and AI Engineering Intern at CAPACITI with a passion for
@@ -970,7 +972,7 @@
           </div>
         </div>
         <div class="hero-media">
-          <img class="avatar" src="/assets/minenhle.jpg" alt="Minenhle Sithokomele Sibiya" />
+          <img class="avatar" src="/assets/Iminenhle.jfif" alt="Minenhle Sithokomele Sibiya" />
         </div>
       </div>
     </header>
@@ -1308,7 +1310,7 @@
             </button>
             <div class="form-msg" id="formMsg">
               <i class="fa-solid fa-check-circle"></i> Thanks! Your message has been sent
-              successfully. 
+              successfully.
             </div>
           </form>
           <div class="contact-info">
@@ -1323,14 +1325,25 @@
               <div class="ico"><i class="fa-brands fa-github"></i></div>
               <div>
                 <h5>GitHub</h5>
-                <div class="val"><a href="https://github.com/Minenhle-sibiya" target="_blank" rel="noopener">Minenhle-sibiya (Minenhle Sibiya)</a></div>
+                <div class="val">
+                  <a href="https://github.com/Minenhle-sibiya" target="_blank" rel="noopener"
+                    >Minenhle-sibiya (Minenhle Sibiya)</a
+                  >
+                </div>
               </div>
             </div>
             <div class="info-item">
               <div class="ico"><i class="fa-brands fa-linkedin"></i></div>
               <div>
                 <h5>LinkedIn</h5>
-                <div class="val"><a href="https://www.linkedin.com/in/minenhle-sibiya-086130304/" target="_blank" rel="noopener">Minenhle Sibiya | LinkedIn</a></div>
+                <div class="val">
+                  <a
+                    href="https://www.linkedin.com/in/minenhle-sibiya-086130304/"
+                    target="_blank"
+                    rel="noopener"
+                    >Minenhle Sibiya | LinkedIn</a
+                  >
+                </div>
               </div>
             </div>
             <div class="info-item">
@@ -1660,6 +1673,41 @@
       const scrollBy = (dir) => grid.scrollBy({ left: dir * 320, behavior: "smooth" });
       document.getElementById("certPrev").addEventListener("click", () => scrollBy(-1));
       document.getElementById("certNext").addEventListener("click", () => scrollBy(1));
+      const autoScroll = () => {
+        const maxScroll = grid.scrollWidth - grid.clientWidth;
+        if (grid.scrollLeft >= maxScroll - 8) {
+          grid.scrollTo({ left: 0, behavior: "smooth" });
+        } else {
+          grid.scrollBy({ left: 320, behavior: "smooth" });
+        }
+      };
+      let carouselInterval = null;
+      let carouselVisible = false;
+      const startCarousel = () => {
+        if (carouselInterval || !carouselVisible) return;
+        carouselInterval = setInterval(autoScroll, 2500);
+      };
+      const stopCarousel = () => {
+        if (!carouselInterval) return;
+        clearInterval(carouselInterval);
+        carouselInterval = null;
+      };
+      const observer = new IntersectionObserver(
+        ([entry]) => {
+          carouselVisible = entry.isIntersecting;
+          if (carouselVisible) {
+            startCarousel();
+          } else {
+            stopCarousel();
+          }
+        },
+        { threshold: 0.3 },
+      );
+      observer.observe(grid);
+      grid.addEventListener("mouseenter", stopCarousel);
+      grid.addEventListener("mouseleave", () => {
+        if (carouselVisible) startCarousel();
+      });
       document
         .querySelectorAll(".view-btn:not(.disabled)")
         .forEach((btn) =>
